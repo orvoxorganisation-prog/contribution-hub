@@ -529,98 +529,60 @@ function EventCard({
 
 /* ---------------- REGISTER ---------------- */
 function Register() {
-  const formRef = useRef<HTMLFormElement>(null);
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const phone = String(fd.get("phone") ?? "").replace(/\D/g, "");
-    if (phone.length < 10) {
-      setError("Please enter a valid 10-digit phone number.");
-      return;
-    }
-    setError(null);
-    setSent(true);
-    setTimeout(() => {
-      setSent(false);
-      formRef.current?.reset();
-    }, 4000);
-  };
-
+  const formUrl =
+    "https://docs.google.com/forms/d/1dE91Os-HR2N3ngXsPioFdMUok0xk4npYRIHn73lhL1E/viewform";
   return (
-    <section id="register" className="px-6 md:px-10 py-24 md:py-36 bg-surface border-t border-line">
-      <div className="max-w-5xl mx-auto">
-        <div className="reveal text-center mb-14 md:mb-20">
+    <section
+      id="register"
+      className="px-6 md:px-10 py-24 md:py-36 bg-surface/40 border-y border-line"
+    >
+      <div className="max-w-4xl mx-auto">
+        <div className="reveal text-center mb-12 md:mb-16">
           <SectionLabel className="justify-center">Register</SectionLabel>
           <h2 className="mt-6 text-4xl md:text-6xl font-medium tracking-[-0.03em] leading-[1]">
-            Step up. <span className="font-display font-normal">Take the mic.</span>
+            Step up. <span className="font-display font-normal text-gradient">Take the mic.</span>
           </h2>
           <p className="mt-5 text-ink-muted max-w-xl mx-auto">
-            Sign up for the Debate Competition or join the forum to hear about everything we have
-            planned next.
+            Registrations happen through our official Google Form. It takes less than two minutes —
+            we'll be in touch with event details right after.
           </p>
         </div>
 
-        <form
-          ref={formRef}
-          onSubmit={onSubmit}
-          className="reveal bg-background rounded-3xl border border-line p-6 md:p-10 shadow-card"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <Field label="Full name">
-              <input name="name" required type="text" placeholder="e.g., Aarav Mehta" className={inputCls} />
-            </Field>
-            <Field label="Email address">
-              <input name="email" required type="email" placeholder="you@school.com" className={inputCls} />
-            </Field>
-            <Field label="Phone number">
-              <input
-                name="phone"
-                required
-                type="tel"
-                placeholder="+91 98765 43210"
-                onInput={() => setError(null)}
-                className={`${inputCls} ${error ? "ring-2 ring-red-500/20 border-red-500" : ""}`}
-              />
-            </Field>
-            <Field label="Grade / Status">
-              <select name="grade" required defaultValue="" className={`${inputCls} appearance-none pr-10`}>
-                <option value="" disabled>Select grade</option>
-                <option value="5-6">Grade 5 – 6</option>
-                <option value="7-8">Grade 7 – 8</option>
-                <option value="9">Grade 9</option>
-                <option value="other">Other / Just interested</option>
-              </select>
-            </Field>
-          </div>
-
-          <div className="mt-5">
-            <Field label="Interested in">
-              <select name="event" required defaultValue="debate" className={`${inputCls} appearance-none pr-10`}>
-                <option value="debate">Debate Competition (Open)</option>
-                <option value="networking">Networking Event (Notify me)</option>
-                <option value="general">General Updates</option>
-              </select>
-            </Field>
-          </div>
-
-          <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <p className={`text-sm ${error ? "text-red-600" : "text-ink-muted"}`}>
-              {error ?? "We respond within 48 hours. No spam, ever."}
+        <div className="reveal relative rounded-3xl border border-line bg-surface/70 backdrop-blur p-8 md:p-12 shadow-soft overflow-hidden">
+          <div className="absolute inset-0 -z-10 opacity-60 bg-gradient-cta blur-3xl scale-110" />
+          <div className="relative z-10 flex flex-col items-center text-center gap-6">
+            <span className="inline-flex items-center gap-2 rounded-full border border-line-strong bg-background/60 backdrop-blur px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-ink-muted">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+              Free registration open
+            </span>
+            <h3 className="text-3xl md:text-4xl font-medium tracking-[-0.02em] max-w-xl">
+              Join the ORVOX <span className="font-display font-normal">Debate Competition</span>
+            </h3>
+            <p className="text-ink-muted max-w-md">
+              For students between grade 5 to 9. Fill out the registration form to lock your spot.
             </p>
-            <button
-              type="submit"
-              className="group inline-flex items-center justify-between gap-3 rounded-full bg-ink text-background pl-6 pr-2 py-2 text-base font-semibold hover:bg-ink/85 transition-colors"
+            <a
+              href={formUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center justify-between gap-3 rounded-full bg-gradient-cta text-accent-foreground pl-7 pr-2 py-2 text-base font-semibold hover:opacity-95 transition-opacity shadow-glow"
             >
-              {sent ? "Application received" : "Complete registration"}
-              <span className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center group-hover:rotate-45 transition-transform">
-                {sent ? <Check className="w-4 h-4" /> : <Send className="w-4 h-4" />}
+              Open Google Form
+              <span className="w-10 h-10 rounded-full bg-ink text-background flex items-center justify-center group-hover:rotate-45 transition-transform">
+                <ArrowUpRight className="w-4 h-4" />
               </span>
-            </button>
+            </a>
+            <p className="text-xs text-ink-subtle">
+              Having trouble? Email us at{" "}
+              <a
+                href="mailto:orvoxorganisation@gmail.com"
+                className="link-underline text-ink-muted hover:text-ink"
+              >
+                orvoxorganisation@gmail.com
+              </a>
+            </p>
           </div>
-        </form>
+        </div>
       </div>
     </section>
   );
