@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   ArrowUpRight,
   Mic,
@@ -13,8 +13,8 @@ import {
   Menu as MenuIcon,
   X,
   Mail,
+  Phone,
   Camera as Instagram,
-  Send,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
