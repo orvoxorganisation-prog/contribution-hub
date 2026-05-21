@@ -171,7 +171,7 @@ function Hero() {
           <br />
           Think sharper.
           <br />
-          <span className="font-display font-normal">Lead with confidence.</span>
+          <span className="font-display font-normal text-gradient">Lead with confidence.</span>
         </h1>
 
         <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-end">
