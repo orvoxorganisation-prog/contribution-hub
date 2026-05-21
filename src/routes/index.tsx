@@ -255,12 +255,22 @@ function Marquee() {
 /* ---------------- ABOUT ---------------- */
 function About() {
   return (
-    <section id="about" className="px-6 md:px-10 py-24 md:py-36">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+    <section id="about" className="relative px-6 md:px-10 py-24 md:py-36 overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-20 -left-24 w-[28rem] h-[28rem] rounded-full blur-3xl opacity-40"
+        style={{ background: "radial-gradient(circle, var(--grad-1) 0%, transparent 65%)" }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-32 right-0 w-[32rem] h-[32rem] rounded-full blur-3xl opacity-30"
+        style={{ background: "radial-gradient(circle, var(--grad-3) 0%, transparent 65%)" }}
+      />
+      <div className="relative max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
         <div className="md:col-span-4 reveal">
           <SectionLabel>About</SectionLabel>
           <h2 className="mt-6 text-4xl md:text-5xl font-medium tracking-[-0.03em] leading-[1]">
-            A forum <span className="font-display font-normal">by the students</span>, for the
+            A forum <span className="font-display font-normal text-gradient">by the students</span>, for the
             students.
           </h2>
         </div>
@@ -288,8 +298,8 @@ function About() {
 
 function Stat({ number, label }: { number: string; label: string }) {
   return (
-    <div className="bg-background p-6 md:p-8">
-      <div className="text-3xl md:text-4xl font-medium tracking-[-0.02em]">{number}</div>
+    <div className="bg-background/70 backdrop-blur p-6 md:p-8">
+      <div className="text-3xl md:text-4xl font-medium tracking-[-0.02em] text-gradient">{number}</div>
       <div className="mt-1 text-sm text-ink-muted">{label}</div>
     </div>
   );
@@ -302,28 +312,36 @@ function Values() {
       icon: Mic,
       title: "Clear Expression",
       desc: "We help students speak with confidence, structure, and purpose.",
+      tint: "var(--grad-1)",
     },
     {
       icon: Brain,
       title: "Critical Thinking",
       desc: "We encourage young minds to question, analyze, and defend ideas logically.",
+      tint: "var(--grad-2)",
     },
     {
       icon: Compass,
       title: "Youth Leadership",
       desc: "We create opportunities for students to lead, organize, and grow beyond the stage.",
+      tint: "var(--grad-3)",
     },
   ];
 
   return (
-    <section id="values" className="px-6 md:px-10 py-24 md:py-36 bg-surface border-y border-line">
-      <div className="max-w-7xl mx-auto">
+    <section id="values" className="relative px-6 md:px-10 py-24 md:py-36 bg-surface border-y border-line overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60rem] h-[40rem] rounded-full blur-3xl opacity-20"
+        style={{ background: "conic-gradient(from 180deg, var(--grad-1), var(--grad-2), var(--grad-3), var(--grad-1))" }}
+      />
+      <div className="relative max-w-7xl mx-auto">
         <div className="reveal flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
           <div>
             <SectionLabel>What we stand for</SectionLabel>
             <h2 className="mt-6 text-4xl md:text-6xl font-medium tracking-[-0.03em] leading-[1] max-w-2xl">
               Three principles that shape{" "}
-              <span className="font-display font-normal">everything</span> we do.
+              <span className="font-display font-normal text-gradient">everything</span> we do.
             </h2>
           </div>
         </div>
@@ -334,21 +352,37 @@ function Values() {
             return (
               <div
                 key={v.title}
-                className="reveal group relative bg-background rounded-2xl border border-line p-8 md:p-10 hover:border-ink-subtle transition-colors flex flex-col"
+                className="reveal group relative bg-background rounded-2xl border border-line p-8 md:p-10 hover:border-line-strong transition-all flex flex-col overflow-hidden"
                 style={{ transitionDelay: `${i * 0.08}s` }}
               >
-                <div className="flex items-center justify-between mb-12">
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute -top-24 -right-24 w-64 h-64 rounded-full blur-3xl opacity-0 group-hover:opacity-60 transition-opacity duration-700"
+                  style={{ background: `radial-gradient(circle, ${v.tint} 0%, transparent 65%)` }}
+                />
+                <div className="relative flex items-center justify-between mb-12">
                   <span className="text-xs font-medium tabular-nums text-ink-subtle">
                     0{i + 1}
                   </span>
-                  <div className="w-12 h-12 rounded-full bg-surface-muted border border-line flex items-center justify-center group-hover:bg-ink group-hover:text-background transition-colors">
+                  <div
+                    className="w-12 h-12 rounded-full border border-line-strong flex items-center justify-center transition-transform group-hover:scale-110"
+                    style={{
+                      background: `linear-gradient(135deg, color-mix(in oklab, ${v.tint} 35%, transparent), color-mix(in oklab, ${v.tint} 10%, transparent))`,
+                      color: v.tint,
+                    }}
+                  >
                     <Icon className="w-5 h-5" />
                   </div>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-medium tracking-[-0.02em] mb-3">
+                <h3 className="relative text-2xl md:text-3xl font-medium tracking-[-0.02em] mb-3">
                   {v.title}
                 </h3>
-                <p className="text-ink-muted leading-relaxed">{v.desc}</p>
+                <p className="relative text-ink-muted leading-relaxed">{v.desc}</p>
+                <div
+                  aria-hidden
+                  className="absolute left-0 right-0 bottom-0 h-px opacity-60"
+                  style={{ background: `linear-gradient(90deg, transparent, ${v.tint}, transparent)` }}
+                />
               </div>
             );
           })}
@@ -368,7 +402,7 @@ function Events() {
             <SectionLabel>Events</SectionLabel>
             <h2 className="mt-6 text-4xl md:text-6xl font-medium tracking-[-0.03em] leading-[1] max-w-2xl">
               Where students go from{" "}
-              <span className="font-display font-normal">nervous</span> to known.
+              <span className="font-display font-normal text-gradient">nervous</span> to known.
             </h2>
           </div>
           <p className="text-ink-muted max-w-sm md:text-right">
@@ -394,10 +428,10 @@ function Events() {
                 href="https://docs.google.com/forms/d/1dE91Os-HR2N3ngXsPioFdMUok0xk4npYRIHn73lhL1E/viewform"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-between gap-3 rounded-full bg-gradient-cta text-accent-foreground pl-5 pr-1.5 py-1.5 text-sm font-semibold hover:opacity-95 transition-opacity w-full sm:w-auto"
+                className="group inline-flex items-center justify-between gap-3 rounded-full bg-ink text-foreground pl-5 pr-1.5 py-1.5 text-sm font-semibold hover:opacity-95 transition-opacity w-full sm:w-auto"
               >
                 Register
-                <span className="w-9 h-9 rounded-full bg-ink text-background flex items-center justify-center group-hover:rotate-45 transition-transform">
+                <span className="w-9 h-9 rounded-full bg-gradient-cta text-accent-foreground flex items-center justify-center group-hover:rotate-45 transition-transform">
                   <ArrowUpRight className="w-4 h-4" />
                 </span>
               </a>
@@ -455,23 +489,40 @@ function EventCard({
 }) {
   return (
     <article
-      className={`reveal relative rounded-3xl border p-8 md:p-10 flex flex-col gap-8 ${
+      className={`reveal relative rounded-3xl border p-8 md:p-10 flex flex-col gap-8 overflow-hidden ${
         status === "active"
-          ? "bg-ink text-background border-ink"
+          ? "text-background border-transparent shadow-glow"
           : "bg-surface text-ink border-line"
       }`}
+      style={
+        status === "active"
+          ? {
+              backgroundImage:
+                "linear-gradient(135deg, var(--grad-1) 0%, var(--grad-2) 55%, var(--grad-3) 100%)",
+            }
+          : undefined
+      }
     >
+      {status === "soon" && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-24 -right-24 w-72 h-72 rounded-full blur-3xl opacity-40"
+          style={{ background: "radial-gradient(circle, var(--grad-2) 0%, transparent 65%)" }}
+        />
+      )}
       {badge && (
-        <span className="absolute -top-3 right-8 inline-flex items-center gap-1.5 rounded-full bg-accent text-accent-foreground px-3 py-1 text-xs font-bold uppercase tracking-wider">
-          <Sparkles className="w-3 h-3" />
+        <span className="absolute -top-3 right-8 inline-flex items-center gap-1.5 rounded-full bg-ink text-background px-3 py-1 text-xs font-bold uppercase tracking-wider shadow-card">
+          <Sparkles className="w-3 h-3 text-accent" />
           {badge}
         </span>
       )}
 
-      <header className="flex items-start justify-between gap-4">
+      <header className="relative flex items-start justify-between gap-4">
         <div
           className={`w-14 h-14 rounded-2xl flex items-center justify-center ${
-            status === "active" ? "bg-background/10 text-background" : "bg-surface-muted text-ink"
+            status === "active"
+              ? "bg-background/15 text-background backdrop-blur"
+              : "bg-gradient-cta text-accent-foreground"
           }`}
         >
           {icon}
