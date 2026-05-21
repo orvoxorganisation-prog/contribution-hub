@@ -312,28 +312,36 @@ function Values() {
       icon: Mic,
       title: "Clear Expression",
       desc: "We help students speak with confidence, structure, and purpose.",
+      tint: "var(--grad-1)",
     },
     {
       icon: Brain,
       title: "Critical Thinking",
       desc: "We encourage young minds to question, analyze, and defend ideas logically.",
+      tint: "var(--grad-2)",
     },
     {
       icon: Compass,
       title: "Youth Leadership",
       desc: "We create opportunities for students to lead, organize, and grow beyond the stage.",
+      tint: "var(--grad-3)",
     },
   ];
 
   return (
-    <section id="values" className="px-6 md:px-10 py-24 md:py-36 bg-surface border-y border-line">
-      <div className="max-w-7xl mx-auto">
+    <section id="values" className="relative px-6 md:px-10 py-24 md:py-36 bg-surface border-y border-line overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60rem] h-[40rem] rounded-full blur-3xl opacity-20"
+        style={{ background: "conic-gradient(from 180deg, var(--grad-1), var(--grad-2), var(--grad-3), var(--grad-1))" }}
+      />
+      <div className="relative max-w-7xl mx-auto">
         <div className="reveal flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
           <div>
             <SectionLabel>What we stand for</SectionLabel>
             <h2 className="mt-6 text-4xl md:text-6xl font-medium tracking-[-0.03em] leading-[1] max-w-2xl">
               Three principles that shape{" "}
-              <span className="font-display font-normal">everything</span> we do.
+              <span className="font-display font-normal text-gradient">everything</span> we do.
             </h2>
           </div>
         </div>
@@ -344,21 +352,37 @@ function Values() {
             return (
               <div
                 key={v.title}
-                className="reveal group relative bg-background rounded-2xl border border-line p-8 md:p-10 hover:border-ink-subtle transition-colors flex flex-col"
+                className="reveal group relative bg-background rounded-2xl border border-line p-8 md:p-10 hover:border-line-strong transition-all flex flex-col overflow-hidden"
                 style={{ transitionDelay: `${i * 0.08}s` }}
               >
-                <div className="flex items-center justify-between mb-12">
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute -top-24 -right-24 w-64 h-64 rounded-full blur-3xl opacity-0 group-hover:opacity-60 transition-opacity duration-700"
+                  style={{ background: `radial-gradient(circle, ${v.tint} 0%, transparent 65%)` }}
+                />
+                <div className="relative flex items-center justify-between mb-12">
                   <span className="text-xs font-medium tabular-nums text-ink-subtle">
                     0{i + 1}
                   </span>
-                  <div className="w-12 h-12 rounded-full bg-surface-muted border border-line flex items-center justify-center group-hover:bg-ink group-hover:text-background transition-colors">
+                  <div
+                    className="w-12 h-12 rounded-full border border-line-strong flex items-center justify-center transition-transform group-hover:scale-110"
+                    style={{
+                      background: `linear-gradient(135deg, color-mix(in oklab, ${v.tint} 35%, transparent), color-mix(in oklab, ${v.tint} 10%, transparent))`,
+                      color: v.tint,
+                    }}
+                  >
                     <Icon className="w-5 h-5" />
                   </div>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-medium tracking-[-0.02em] mb-3">
+                <h3 className="relative text-2xl md:text-3xl font-medium tracking-[-0.02em] mb-3">
                   {v.title}
                 </h3>
-                <p className="text-ink-muted leading-relaxed">{v.desc}</p>
+                <p className="relative text-ink-muted leading-relaxed">{v.desc}</p>
+                <div
+                  aria-hidden
+                  className="absolute left-0 right-0 bottom-0 h-px opacity-60"
+                  style={{ background: `linear-gradient(90deg, transparent, ${v.tint}, transparent)` }}
+                />
               </div>
             );
           })}
