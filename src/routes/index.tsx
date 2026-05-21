@@ -606,20 +606,29 @@ function Footer() {
               we read everything.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+            <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
               <a
-                href="mailto:hello@orvox.org"
-                className="inline-flex items-center gap-3 rounded-full bg-background text-ink px-5 py-3 text-sm font-semibold hover:bg-accent transition-colors"
+                href="mailto:orvoxorganisation@gmail.com"
+                className="inline-flex items-center gap-3 rounded-full bg-background text-ink px-5 py-3 text-sm font-semibold hover:bg-accent hover:text-accent-foreground transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                hello@orvox.org
+                orvoxorganisation@gmail.com
               </a>
               <a
-                href="#"
+                href="https://instagram.com/orvox_org"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 rounded-full border border-background/20 px-5 py-3 text-sm font-semibold hover:bg-background/10 transition-colors"
               >
                 <Instagram className="w-4 h-4" />
-                @orvox.forum
+                @orvox_org
+              </a>
+              <a
+                href="tel:+918106997152"
+                className="inline-flex items-center gap-3 rounded-full border border-background/20 px-5 py-3 text-sm font-semibold hover:bg-background/10 transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                +91 81069 97152
               </a>
             </div>
           </div>
