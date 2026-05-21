@@ -489,23 +489,40 @@ function EventCard({
 }) {
   return (
     <article
-      className={`reveal relative rounded-3xl border p-8 md:p-10 flex flex-col gap-8 ${
+      className={`reveal relative rounded-3xl border p-8 md:p-10 flex flex-col gap-8 overflow-hidden ${
         status === "active"
-          ? "bg-ink text-background border-ink"
+          ? "text-background border-transparent shadow-glow"
           : "bg-surface text-ink border-line"
       }`}
+      style={
+        status === "active"
+          ? {
+              backgroundImage:
+                "linear-gradient(135deg, var(--grad-1) 0%, var(--grad-2) 55%, var(--grad-3) 100%)",
+            }
+          : undefined
+      }
     >
+      {status === "soon" && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-24 -right-24 w-72 h-72 rounded-full blur-3xl opacity-40"
+          style={{ background: "radial-gradient(circle, var(--grad-2) 0%, transparent 65%)" }}
+        />
+      )}
       {badge && (
-        <span className="absolute -top-3 right-8 inline-flex items-center gap-1.5 rounded-full bg-accent text-accent-foreground px-3 py-1 text-xs font-bold uppercase tracking-wider">
-          <Sparkles className="w-3 h-3" />
+        <span className="absolute -top-3 right-8 inline-flex items-center gap-1.5 rounded-full bg-ink text-background px-3 py-1 text-xs font-bold uppercase tracking-wider shadow-card">
+          <Sparkles className="w-3 h-3 text-accent" />
           {badge}
         </span>
       )}
 
-      <header className="flex items-start justify-between gap-4">
+      <header className="relative flex items-start justify-between gap-4">
         <div
           className={`w-14 h-14 rounded-2xl flex items-center justify-center ${
-            status === "active" ? "bg-background/10 text-background" : "bg-surface-muted text-ink"
+            status === "active"
+              ? "bg-background/15 text-background backdrop-blur"
+              : "bg-gradient-cta text-accent-foreground"
           }`}
         >
           {icon}
