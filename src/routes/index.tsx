@@ -178,12 +178,12 @@ function Index() {
                 </h3>
                 <div className="space-y-8">
                   {[
-                    { icon: "calendar_month", color: "primary", glow: "glow-blue", title: "Monthly Events", desc: "From debates to tech hackathons." },
-                    { icon: "public", color: "tertiary", glow: "glow-purple", title: "Global Reach", desc: "Connecting minds across 20+ countries." },
-                    { icon: "school", color: "error", glow: "", title: "Skill Building", desc: "Mentorship from industry experts." },
+                    { icon: "calendar_month", iconWrap: "bg-primary/20 text-primary border-primary/30 glow-blue", title: "Monthly Events", desc: "From debates to tech hackathons." },
+                    { icon: "public", iconWrap: "bg-tertiary/20 text-tertiary border-tertiary/30 glow-purple", title: "Global Reach", desc: "Connecting minds across 20+ countries." },
+                    { icon: "school", iconWrap: "bg-error/20 text-error border-error/30", title: "Skill Building", desc: "Mentorship from industry experts." },
                   ].map((item) => (
                     <div key={item.title} className="flex items-start gap-5 hover:translate-x-2 transition-transform duration-300">
-                      <div className={`w-14 h-14 rounded-2xl bg-${item.color}/20 flex items-center justify-center text-${item.color} shrink-0 border border-${item.color}/30 ${item.glow}`}>
+                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 border ${item.iconWrap}`}>
                         <Icon name={item.icon} className="text-3xl" filled />
                       </div>
                       <div>
