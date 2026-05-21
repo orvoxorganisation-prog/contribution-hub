@@ -428,10 +428,10 @@ function Events() {
                 href="https://docs.google.com/forms/d/1dE91Os-HR2N3ngXsPioFdMUok0xk4npYRIHn73lhL1E/viewform"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-between gap-3 rounded-full bg-gradient-cta text-accent-foreground pl-5 pr-1.5 py-1.5 text-sm font-semibold hover:opacity-95 transition-opacity w-full sm:w-auto"
+                className="group inline-flex items-center justify-between gap-3 rounded-full bg-ink text-foreground pl-5 pr-1.5 py-1.5 text-sm font-semibold hover:opacity-95 transition-opacity w-full sm:w-auto"
               >
                 Register
-                <span className="w-9 h-9 rounded-full bg-ink text-background flex items-center justify-center group-hover:rotate-45 transition-transform">
+                <span className="w-9 h-9 rounded-full bg-gradient-cta text-accent-foreground flex items-center justify-center group-hover:rotate-45 transition-transform">
                   <ArrowUpRight className="w-4 h-4" />
                 </span>
               </a>
