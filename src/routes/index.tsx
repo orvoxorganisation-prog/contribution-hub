@@ -255,12 +255,22 @@ function Marquee() {
 /* ---------------- ABOUT ---------------- */
 function About() {
   return (
-    <section id="about" className="px-6 md:px-10 py-24 md:py-36">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+    <section id="about" className="relative px-6 md:px-10 py-24 md:py-36 overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-20 -left-24 w-[28rem] h-[28rem] rounded-full blur-3xl opacity-40"
+        style={{ background: "radial-gradient(circle, var(--grad-1) 0%, transparent 65%)" }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-32 right-0 w-[32rem] h-[32rem] rounded-full blur-3xl opacity-30"
+        style={{ background: "radial-gradient(circle, var(--grad-3) 0%, transparent 65%)" }}
+      />
+      <div className="relative max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
         <div className="md:col-span-4 reveal">
           <SectionLabel>About</SectionLabel>
           <h2 className="mt-6 text-4xl md:text-5xl font-medium tracking-[-0.03em] leading-[1]">
-            A forum <span className="font-display font-normal">by the students</span>, for the
+            A forum <span className="font-display font-normal text-gradient">by the students</span>, for the
             students.
           </h2>
         </div>
@@ -288,8 +298,8 @@ function About() {
 
 function Stat({ number, label }: { number: string; label: string }) {
   return (
-    <div className="bg-background p-6 md:p-8">
-      <div className="text-3xl md:text-4xl font-medium tracking-[-0.02em]">{number}</div>
+    <div className="bg-background/70 backdrop-blur p-6 md:p-8">
+      <div className="text-3xl md:text-4xl font-medium tracking-[-0.02em] text-gradient">{number}</div>
       <div className="mt-1 text-sm text-ink-muted">{label}</div>
     </div>
   );
