@@ -24,7 +24,7 @@
   --color-muted: var(--surface-muted);
   --color-muted-foreground: var(--ink-muted);
   --color-border: var(--line);
-  --color-ring: var(--ink);
+  --color-ring: var(--accent);
 
   --radius-lg: 1.25rem;
   --radius-xl: 1.75rem;
@@ -32,19 +32,25 @@
 }
 
 :root {
-  --background: #f7f6f3;
-  --surface: #ffffff;
-  --surface-muted: #efeeea;
-  --ink: #0c0c0d;
-  --ink-muted: #5a5a5e;
-  --ink-subtle: #8a8a8f;
-  --line: #e6e4df;
-  --line-strong: #d6d3cc;
-  --accent: #d9f24f;
-  --accent-foreground: #0c0c0d;
+  --background: #07070d;
+  --foreground: #f5f6ff;
+  --surface: #11111c;
+  --surface-muted: #181826;
+  --ink: #f5f6ff;
+  --ink-muted: #9ea0bd;
+  --ink-subtle: #6b6d8a;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --accent: #7dd3fc;
+  --accent-foreground: #07070d;
 
-  --shadow-card: 0 1px 0 0 rgba(12, 12, 13, 0.04), 0 12px 32px -16px rgba(12, 12, 13, 0.18);
-  --shadow-soft: 0 1px 0 0 rgba(12, 12, 13, 0.04), 0 24px 48px -28px rgba(12, 12, 13, 0.22);
+  --grad-1: #7dd3fc;
+  --grad-2: #c4b5fd;
+  --grad-3: #f9a8d4;
+
+  --shadow-card: 0 1px 0 0 rgba(255, 255, 255, 0.04), 0 24px 60px -28px rgba(0, 0, 0, 0.7);
+  --shadow-soft: 0 1px 0 0 rgba(255, 255, 255, 0.04), 0 40px 80px -40px rgba(124, 109, 240, 0.35);
+  --shadow-glow: 0 0 80px -20px rgba(125, 211, 252, 0.35), 0 0 120px -40px rgba(196, 181, 253, 0.3);
 }
 
 html {
@@ -58,6 +64,11 @@ body {
   font-feature-settings: "ss01", "cv11";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  background-image:
+    radial-gradient(60% 50% at 15% 0%, rgba(125, 211, 252, 0.12), transparent 60%),
+    radial-gradient(50% 40% at 90% 10%, rgba(249, 168, 212, 0.10), transparent 60%),
+    radial-gradient(40% 30% at 50% 100%, rgba(196, 181, 253, 0.10), transparent 60%);
+  background-attachment: fixed;
 }
 
 @layer base {
@@ -74,9 +85,21 @@ body {
 
 .shadow-card { box-shadow: var(--shadow-card); }
 .shadow-soft { box-shadow: var(--shadow-soft); }
+.shadow-glow { box-shadow: var(--shadow-glow); }
+
+.text-gradient {
+  background-image: linear-gradient(110deg, var(--grad-1) 0%, var(--grad-2) 50%, var(--grad-3) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-gradient-cta {
+  background-image: linear-gradient(110deg, var(--grad-1), var(--grad-2) 55%, var(--grad-3));
+}
 
 .grain {
-  background-image: radial-gradient(rgba(12, 12, 13, 0.05) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 4px 4px;
 }
 

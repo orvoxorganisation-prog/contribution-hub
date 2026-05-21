@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   ArrowUpRight,
   Mic,
@@ -13,8 +13,8 @@ import {
   Menu as MenuIcon,
   X,
   Mail,
+  Phone,
   Camera as Instagram,
-  Send,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -99,9 +99,10 @@ function Index() {
 
           <div className="flex items-center gap-2">
             <a
-              href="#register"
-              onClick={scrollTo("#register")}
-              className="hidden sm:inline-flex items-center gap-2 rounded-full bg-ink text-background px-5 py-2.5 text-sm font-semibold hover:bg-ink/85 transition-colors"
+              href="https://docs.google.com/forms/d/1dE91Os-HR2N3ngXsPioFdMUok0xk4npYRIHn73lhL1E/viewform"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-cta text-accent-foreground px-5 py-2.5 text-sm font-semibold hover:opacity-95 transition-opacity"
             >
               Register
               <ArrowUpRight className="w-4 h-4" />
@@ -171,7 +172,7 @@ function Hero() {
           <br />
           Think sharper.
           <br />
-          <span className="font-display font-normal">Lead with confidence.</span>
+          <span className="font-display font-normal text-gradient">Lead with confidence.</span>
         </h1>
 
         <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-end">
@@ -183,15 +184,13 @@ function Hero() {
 
           <div className="reveal md:col-span-6 md:col-start-7 flex flex-col sm:flex-row gap-3 md:justify-end">
             <a
-              href="#register"
-              onClick={(e) => {
-                e.preventDefault();
-                document.querySelector("#register")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="group inline-flex items-center justify-between gap-3 rounded-full bg-ink text-background pl-6 pr-2 py-2 text-base font-semibold hover:bg-ink/85 transition-colors"
+              href="https://docs.google.com/forms/d/1dE91Os-HR2N3ngXsPioFdMUok0xk4npYRIHn73lhL1E/viewform"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center justify-between gap-3 rounded-full bg-gradient-cta text-accent-foreground pl-6 pr-2 py-2 text-base font-semibold hover:opacity-95 transition-opacity shadow-glow"
             >
               Register
-              <span className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center group-hover:rotate-45 transition-transform">
+              <span className="w-10 h-10 rounded-full bg-ink text-background flex items-center justify-center group-hover:rotate-45 transition-transform">
                 <ArrowUpRight className="w-4 h-4" />
               </span>
             </a>
@@ -201,7 +200,7 @@ function Hero() {
                 e.preventDefault();
                 document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-surface px-6 py-3 text-base font-semibold hover:bg-surface-muted transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-surface/60 backdrop-blur px-6 py-3 text-base font-semibold hover:bg-surface transition-colors"
             >
               Contact Us
             </a>
@@ -392,15 +391,13 @@ function Events() {
             ]}
             cta={
               <a
-                href="#register"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.querySelector("#register")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="group inline-flex items-center justify-between gap-3 rounded-full bg-ink text-background pl-5 pr-1.5 py-1.5 text-sm font-semibold hover:bg-ink/85 transition-colors w-full sm:w-auto"
+                href="https://docs.google.com/forms/d/1dE91Os-HR2N3ngXsPioFdMUok0xk4npYRIHn73lhL1E/viewform"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center justify-between gap-3 rounded-full bg-gradient-cta text-accent-foreground pl-5 pr-1.5 py-1.5 text-sm font-semibold hover:opacity-95 transition-opacity w-full sm:w-auto"
               >
                 Register
-                <span className="w-9 h-9 rounded-full bg-accent text-accent-foreground flex items-center justify-center group-hover:rotate-45 transition-transform">
+                <span className="w-9 h-9 rounded-full bg-ink text-background flex items-center justify-center group-hover:rotate-45 transition-transform">
                   <ArrowUpRight className="w-4 h-4" />
                 </span>
               </a>
@@ -532,98 +529,60 @@ function EventCard({
 
 /* ---------------- REGISTER ---------------- */
 function Register() {
-  const formRef = useRef<HTMLFormElement>(null);
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const phone = String(fd.get("phone") ?? "").replace(/\D/g, "");
-    if (phone.length < 10) {
-      setError("Please enter a valid 10-digit phone number.");
-      return;
-    }
-    setError(null);
-    setSent(true);
-    setTimeout(() => {
-      setSent(false);
-      formRef.current?.reset();
-    }, 4000);
-  };
-
+  const formUrl =
+    "https://docs.google.com/forms/d/1dE91Os-HR2N3ngXsPioFdMUok0xk4npYRIHn73lhL1E/viewform";
   return (
-    <section id="register" className="px-6 md:px-10 py-24 md:py-36 bg-surface border-t border-line">
-      <div className="max-w-5xl mx-auto">
-        <div className="reveal text-center mb-14 md:mb-20">
+    <section
+      id="register"
+      className="px-6 md:px-10 py-24 md:py-36 bg-surface/40 border-y border-line"
+    >
+      <div className="max-w-4xl mx-auto">
+        <div className="reveal text-center mb-12 md:mb-16">
           <SectionLabel className="justify-center">Register</SectionLabel>
           <h2 className="mt-6 text-4xl md:text-6xl font-medium tracking-[-0.03em] leading-[1]">
-            Step up. <span className="font-display font-normal">Take the mic.</span>
+            Step up. <span className="font-display font-normal text-gradient">Take the mic.</span>
           </h2>
           <p className="mt-5 text-ink-muted max-w-xl mx-auto">
-            Sign up for the Debate Competition or join the forum to hear about everything we have
-            planned next.
+            Registrations happen through our official Google Form. It takes less than two minutes —
+            we'll be in touch with event details right after.
           </p>
         </div>
 
-        <form
-          ref={formRef}
-          onSubmit={onSubmit}
-          className="reveal bg-background rounded-3xl border border-line p-6 md:p-10 shadow-card"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <Field label="Full name">
-              <input name="name" required type="text" placeholder="e.g., Aarav Mehta" className={inputCls} />
-            </Field>
-            <Field label="Email address">
-              <input name="email" required type="email" placeholder="you@school.com" className={inputCls} />
-            </Field>
-            <Field label="Phone number">
-              <input
-                name="phone"
-                required
-                type="tel"
-                placeholder="+91 98765 43210"
-                onInput={() => setError(null)}
-                className={`${inputCls} ${error ? "ring-2 ring-red-500/20 border-red-500" : ""}`}
-              />
-            </Field>
-            <Field label="Grade / Status">
-              <select name="grade" required defaultValue="" className={`${inputCls} appearance-none pr-10`}>
-                <option value="" disabled>Select grade</option>
-                <option value="5-6">Grade 5 – 6</option>
-                <option value="7-8">Grade 7 – 8</option>
-                <option value="9">Grade 9</option>
-                <option value="other">Other / Just interested</option>
-              </select>
-            </Field>
-          </div>
-
-          <div className="mt-5">
-            <Field label="Interested in">
-              <select name="event" required defaultValue="debate" className={`${inputCls} appearance-none pr-10`}>
-                <option value="debate">Debate Competition (Open)</option>
-                <option value="networking">Networking Event (Notify me)</option>
-                <option value="general">General Updates</option>
-              </select>
-            </Field>
-          </div>
-
-          <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <p className={`text-sm ${error ? "text-red-600" : "text-ink-muted"}`}>
-              {error ?? "We respond within 48 hours. No spam, ever."}
+        <div className="reveal relative rounded-3xl border border-line bg-surface/70 backdrop-blur p-8 md:p-12 shadow-soft overflow-hidden">
+          <div className="absolute inset-0 -z-10 opacity-60 bg-gradient-cta blur-3xl scale-110" />
+          <div className="relative z-10 flex flex-col items-center text-center gap-6">
+            <span className="inline-flex items-center gap-2 rounded-full border border-line-strong bg-background/60 backdrop-blur px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-ink-muted">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+              Free registration open
+            </span>
+            <h3 className="text-3xl md:text-4xl font-medium tracking-[-0.02em] max-w-xl">
+              Join the ORVOX <span className="font-display font-normal">Debate Competition</span>
+            </h3>
+            <p className="text-ink-muted max-w-md">
+              For students between grade 5 to 9. Fill out the registration form to lock your spot.
             </p>
-            <button
-              type="submit"
-              className="group inline-flex items-center justify-between gap-3 rounded-full bg-ink text-background pl-6 pr-2 py-2 text-base font-semibold hover:bg-ink/85 transition-colors"
+            <a
+              href={formUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center justify-between gap-3 rounded-full bg-gradient-cta text-accent-foreground pl-7 pr-2 py-2 text-base font-semibold hover:opacity-95 transition-opacity shadow-glow"
             >
-              {sent ? "Application received" : "Complete registration"}
-              <span className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center group-hover:rotate-45 transition-transform">
-                {sent ? <Check className="w-4 h-4" /> : <Send className="w-4 h-4" />}
+              Open Google Form
+              <span className="w-10 h-10 rounded-full bg-ink text-background flex items-center justify-center group-hover:rotate-45 transition-transform">
+                <ArrowUpRight className="w-4 h-4" />
               </span>
-            </button>
+            </a>
+            <p className="text-xs text-ink-subtle">
+              Having trouble? Email us at{" "}
+              <a
+                href="mailto:orvoxorganisation@gmail.com"
+                className="link-underline text-ink-muted hover:text-ink"
+              >
+                orvoxorganisation@gmail.com
+              </a>
+            </p>
           </div>
-        </form>
+        </div>
       </div>
     </section>
   );
@@ -647,20 +606,29 @@ function Footer() {
               we read everything.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+            <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-3">
               <a
-                href="mailto:hello@orvox.org"
-                className="inline-flex items-center gap-3 rounded-full bg-background text-ink px-5 py-3 text-sm font-semibold hover:bg-accent transition-colors"
+                href="mailto:orvoxorganisation@gmail.com"
+                className="inline-flex items-center gap-3 rounded-full bg-background text-ink px-5 py-3 text-sm font-semibold hover:bg-accent hover:text-accent-foreground transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                hello@orvox.org
+                orvoxorganisation@gmail.com
               </a>
               <a
-                href="#"
+                href="https://instagram.com/orvox_org"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 rounded-full border border-background/20 px-5 py-3 text-sm font-semibold hover:bg-background/10 transition-colors"
               >
                 <Instagram className="w-4 h-4" />
-                @orvox.forum
+                @orvox_org
+              </a>
+              <a
+                href="tel:+918106997152"
+                className="inline-flex items-center gap-3 rounded-full border border-background/20 px-5 py-3 text-sm font-semibold hover:bg-background/10 transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                +91 81069 97152
               </a>
             </div>
           </div>
