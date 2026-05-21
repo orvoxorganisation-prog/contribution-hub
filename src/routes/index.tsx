@@ -1,422 +1,754 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import {
+  ArrowUpRight,
+  Mic,
+  Brain,
+  Compass,
+  Sparkles,
+  Calendar,
+  Users,
+  Award,
+  Check,
+  Menu as MenuIcon,
+  X,
+  Mail,
+  Camera as Instagram,
+  Send,
+} from "lucide-react";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "ORVOX Youth Forum — Speak. Think. Lead." },
+      {
+        name: "description",
+        content:
+          "ORVOX Youth Forum is a student-led platform helping young people speak better, think sharper, and lead with confidence through debates and public speaking events.",
+      },
+      { property: "og:title", content: "ORVOX Youth Forum — Speak. Think. Lead." },
+      {
+        property: "og:description",
+        content: "By the students, for the students — built to speak, think, and lead.",
+      },
+      { property: "og:url", content: "/" },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+  }),
   component: Index,
 });
 
-const Icon = ({ name, className, filled }: { name: string; className?: string; filled?: boolean }) => (
-  <span
-    className={`material-symbols-outlined ${className ?? ""}`}
-    style={filled ? { fontVariationSettings: "'FILL' 1" } : undefined}
-  >
-    {name}
-  </span>
-);
-
 function Index() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null);
-  const phoneRef = useRef<HTMLInputElement>(null);
-  const [feedback, setFeedback] = useState("Join 15,000+ others in the ORVOX journey.");
-  const [feedbackError, setFeedbackError] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    const onScroll = () => setScrolled(window.scrollY > 16);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("active");
-        });
-      },
-      { threshold: 0.15 }
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("active")),
+      { threshold: 0.12 }
     );
-    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+    return () => io.disconnect();
   }, []);
 
   const scrollTo = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
+    setMenuOpen(false);
     document.querySelector(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const val = (phoneRef.current?.value ?? "").replace(/\D/g, "");
-    if (val.length < 10) {
-      setFeedback("Please enter a valid 10-digit number.");
-      setFeedbackError(true);
-      return;
-    }
-    setSubmitted(true);
-    setFeedback("Join 15,000+ others in the ORVOX journey.");
-    setFeedbackError(false);
-    setTimeout(() => {
-      setSubmitted(false);
-      formRef.current?.reset();
-    }, 4000);
-  };
+  return (
+    <div className="min-h-screen flex flex-col bg-background text-ink">
+      {/* Header */}
+      <header
+        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+          scrolled ? "bg-background/80 backdrop-blur-md border-b border-line" : "bg-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 md:h-20 flex items-center justify-between">
+          <a href="#home" onClick={scrollTo("#home")} className="flex items-center gap-2">
+            <span className="w-7 h-7 rounded-full bg-ink flex items-center justify-center">
+              <span className="w-2 h-2 rounded-full bg-accent" />
+            </span>
+            <span className="font-semibold tracking-tight text-lg">ORVOX</span>
+          </a>
 
-  const events = [
+          <nav className="hidden md:flex items-center gap-1 rounded-full border border-line bg-surface/70 backdrop-blur px-2 py-1.5 text-sm">
+            {[
+              ["About", "#about"],
+              ["Values", "#values"],
+              ["Events", "#events"],
+              ["Contact", "#contact"],
+            ].map(([label, href]) => (
+              <a
+                key={href}
+                href={href}
+                onClick={scrollTo(href)}
+                className="px-4 py-1.5 rounded-full text-ink-muted hover:text-ink hover:bg-surface-muted transition-colors font-medium"
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <a
+              href="#register"
+              onClick={scrollTo("#register")}
+              className="hidden sm:inline-flex items-center gap-2 rounded-full bg-ink text-background px-5 py-2.5 text-sm font-semibold hover:bg-ink/85 transition-colors"
+            >
+              Register
+              <ArrowUpRight className="w-4 h-4" />
+            </a>
+            <button
+              onClick={() => setMenuOpen((s) => !s)}
+              className="md:hidden w-10 h-10 rounded-full border border-line bg-surface flex items-center justify-center"
+              aria-label="Menu"
+            >
+              {menuOpen ? <X className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile menu */}
+        {menuOpen && (
+          <div className="md:hidden border-t border-line bg-background">
+            <div className="px-6 py-6 flex flex-col gap-1">
+              {[
+                ["About", "#about"],
+                ["Values", "#values"],
+                ["Events", "#events"],
+                ["Contact", "#contact"],
+                ["Register", "#register"],
+              ].map(([label, href]) => (
+                <a
+                  key={href}
+                  href={href}
+                  onClick={scrollTo(href)}
+                  className="flex items-center justify-between py-3 text-lg font-medium border-b border-line"
+                >
+                  {label}
+                  <ArrowUpRight className="w-5 h-5 text-ink-muted" />
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </header>
+
+      <main className="flex-1 pt-16 md:pt-20">
+        <Hero />
+        <Marquee />
+        <About />
+        <Values />
+        <Events />
+        <Register />
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
+
+/* ---------------- HERO ---------------- */
+function Hero() {
+  return (
+    <section id="home" className="relative px-6 md:px-10 pt-16 md:pt-24 pb-24 md:pb-32">
+      <div className="max-w-7xl mx-auto">
+        <div className="reveal flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-ink-muted mb-10">
+          <span className="inline-block w-8 h-px bg-ink-subtle" />
+          Organisation for Vocal Oratory and eXpression
+        </div>
+
+        <h1 className="reveal font-medium tracking-[-0.04em] leading-[0.92] text-[clamp(2.75rem,9vw,8rem)]">
+          Speak better.
+          <br />
+          Think sharper.
+          <br />
+          <span className="font-display font-normal">Lead with confidence.</span>
+        </h1>
+
+        <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-end">
+          <p className="reveal md:col-span-6 text-lg md:text-xl text-ink-muted leading-relaxed max-w-xl">
+            ORVOX Youth Forum is a student-led platform that helps students speak better, think
+            sharper, and lead with confidence through debates, public speaking, and
+            communication-focused experiences.
+          </p>
+
+          <div className="reveal md:col-span-6 md:col-start-7 flex flex-col sm:flex-row gap-3 md:justify-end">
+            <a
+              href="#register"
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector("#register")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="group inline-flex items-center justify-between gap-3 rounded-full bg-ink text-background pl-6 pr-2 py-2 text-base font-semibold hover:bg-ink/85 transition-colors"
+            >
+              Register
+              <span className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center group-hover:rotate-45 transition-transform">
+                <ArrowUpRight className="w-4 h-4" />
+              </span>
+            </a>
+            <a
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-surface px-6 py-3 text-base font-semibold hover:bg-surface-muted transition-colors"
+            >
+              Contact Us
+            </a>
+          </div>
+        </div>
+
+        <div className="reveal mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-px bg-line rounded-2xl overflow-hidden border border-line">
+          {[
+            { k: "Student-led", v: "Built by students, for students" },
+            { k: "Debate", v: "Grade 5 – 9 competitions" },
+            { k: "Networking", v: "Confidence & personal brand" },
+            { k: "Forum", v: "Speak. Think. Lead." },
+          ].map((s) => (
+            <div key={s.k} className="bg-background p-5 md:p-6">
+              <div className="text-xs uppercase tracking-widest text-ink-subtle">{s.k}</div>
+              <div className="mt-2 text-sm md:text-base font-medium text-ink leading-snug">
+                {s.v}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- MARQUEE ---------------- */
+function Marquee() {
+  const items = [
+    "By the students",
+    "For the students",
+    "Speak with purpose",
+    "Think with clarity",
+    "Lead with confidence",
+    "Vocal • Oratory • eXpression",
+  ];
+  const row = [...items, ...items];
+  return (
+    <section aria-hidden className="border-y border-line bg-surface-muted overflow-hidden">
+      <div className="marquee py-6">
+        {row.map((t, i) => (
+          <div key={i} className="flex items-center gap-16 text-xl md:text-2xl font-medium text-ink">
+            <span>{t}</span>
+            <Sparkles className="w-4 h-4 text-ink-subtle" />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- ABOUT ---------------- */
+function About() {
+  return (
+    <section id="about" className="px-6 md:px-10 py-24 md:py-36">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+        <div className="md:col-span-4 reveal">
+          <SectionLabel>About</SectionLabel>
+          <h2 className="mt-6 text-4xl md:text-5xl font-medium tracking-[-0.03em] leading-[1]">
+            A forum <span className="font-display font-normal">by the students</span>, for the
+            students.
+          </h2>
+        </div>
+
+        <div className="md:col-span-7 md:col-start-6 reveal space-y-8">
+          <p className="text-xl md:text-2xl text-ink leading-relaxed font-medium tracking-[-0.01em]">
+            ORVOX exists to give students a platform to express themselves, build confidence,
+            improve communication, develop critical thinking, and grow as young leaders.
+          </p>
+          <p className="text-base md:text-lg text-ink-muted leading-relaxed max-w-xl">
+            Whether you're stepping onto a stage for the first time or sharpening an argument
+            you've rehearsed for weeks, ORVOX is the space to practice, compete, and connect with
+            students who care about the same things you do.
+          </p>
+
+          <div className="pt-6 grid grid-cols-2 gap-px bg-line rounded-2xl overflow-hidden border border-line">
+            <Stat number="100%" label="Student-led" />
+            <Stat number="Gr 5–9" label="Open audience" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Stat({ number, label }: { number: string; label: string }) {
+  return (
+    <div className="bg-background p-6 md:p-8">
+      <div className="text-3xl md:text-4xl font-medium tracking-[-0.02em]">{number}</div>
+      <div className="mt-1 text-sm text-ink-muted">{label}</div>
+    </div>
+  );
+}
+
+/* ---------------- VALUES ---------------- */
+function Values() {
+  const values = [
     {
-      tag: "Flagship Event",
-      tagColor: "text-primary",
-      iconBg: "bg-primary/10 border-primary/20",
-      iconColor: "text-primary",
-      hoverGlow: "hover:glow-blue",
-      icon: "forum",
-      title: "National Youth Debate",
-      desc: "The ultimate clash of logic and eloquence. Join 500+ participants in our 3-round strategic debate tournament.",
-      date: "Oct 2024",
+      icon: Mic,
+      title: "Clear Expression",
+      desc: "We help students speak with confidence, structure, and purpose.",
     },
     {
-      tag: "Leadership",
-      tagColor: "text-tertiary",
-      iconBg: "bg-tertiary/10 border-tertiary/20",
-      iconColor: "text-tertiary",
-      hoverGlow: "hover:glow-purple",
-      icon: "leaderboard",
-      title: "Global Leadership Summit",
-      desc: "Connect with CEOs and policy makers. A 2-day immersive workshop focused on strategic decision making.",
-      date: "Nov 2024",
+      icon: Brain,
+      title: "Critical Thinking",
+      desc: "We encourage young minds to question, analyze, and defend ideas logically.",
     },
     {
-      tag: "Workshop",
-      tagColor: "text-error",
-      iconBg: "bg-error/10 border-error/20",
-      iconColor: "text-error",
-      hoverGlow: "hover:shadow-[0_0_40px_rgba(255,107,107,0.15)]",
-      icon: "record_voice_over",
-      title: "Public Speaking Pro",
-      desc: "Master the art of persuasion. An intensive hands-on session led by world-class orators and TED speakers.",
-      date: "Dec 2024",
+      icon: Compass,
+      title: "Youth Leadership",
+      desc: "We create opportunities for students to lead, organize, and grow beyond the stage.",
     },
   ];
 
   return (
-    <div className="dark min-h-screen flex flex-col relative">
-      {/* Animated blobs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="blob bg-primary w-[500px] h-[500px] -top-20 -left-20" style={{ animationDuration: "25s" }} />
-        <div className="blob bg-tertiary w-[400px] h-[400px] top-1/2 -right-20" style={{ animationDelay: "-5s", animationDuration: "30s" }} />
-        <div className="blob bg-error w-[300px] h-[300px] bottom-10 left-1/3" style={{ animationDelay: "-10s", animationDuration: "22s", opacity: 0.2 }} />
-      </div>
-
-      {/* Nav */}
-      <nav
-        className={`fixed top-0 w-full z-[100] hidden md:block border-b border-white/5 transition-all duration-300 backdrop-blur-xl ${
-          scrolled ? "bg-surface-dim/90 py-3" : "bg-surface/40 py-4"
-        }`}
-      >
-        <div className="flex justify-between items-center px-6 max-w-7xl mx-auto">
-          <div className="text-2xl font-extrabold tracking-tighter text-on-surface">ORVOX</div>
-          <div className="hidden md:flex gap-8 items-center text-sm font-semibold tracking-wide">
-            <a className="text-primary nav-link" href="#home" onClick={scrollTo("#home")}>Home</a>
-            <a className="text-on-surface-variant hover:text-white transition-colors nav-link" href="#events" onClick={scrollTo("#events")}>Events</a>
-            <a className="text-on-surface-variant hover:text-white transition-colors nav-link" href="#about" onClick={scrollTo("#about")}>About Us</a>
-            <a className="text-on-surface-variant hover:text-white transition-colors nav-link" href="#contact" onClick={scrollTo("#contact")}>Contact</a>
+    <section id="values" className="px-6 md:px-10 py-24 md:py-36 bg-surface border-y border-line">
+      <div className="max-w-7xl mx-auto">
+        <div className="reveal flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+          <div>
+            <SectionLabel>What we stand for</SectionLabel>
+            <h2 className="mt-6 text-4xl md:text-6xl font-medium tracking-[-0.03em] leading-[1] max-w-2xl">
+              Three principles that shape{" "}
+              <span className="font-display font-normal">everything</span> we do.
+            </h2>
           </div>
-          <a
-            href="#register"
-            onClick={scrollTo("#register")}
-            className="hidden md:flex bg-gradient-to-r from-primary/20 to-tertiary/20 border border-primary/30 text-white px-6 py-2 rounded-full font-bold hover:scale-105 hover:glow-blue shimmer transition-all duration-300 active:scale-95"
-          >
-            Get Involved
-          </a>
         </div>
-      </nav>
 
-      <main className="flex-1 pb-24 md:pb-0 pt-20 relative z-10">
-        {/* Hero */}
-        <section id="home" className="relative min-h-[90vh] flex items-center justify-center px-6 py-12">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
-            <div className="flex flex-col gap-8 text-center lg:text-left reveal">
-              <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full glass-panel text-primary text-xs font-bold w-fit mx-auto lg:mx-0 uppercase tracking-widest border border-primary/20">
-                <Icon name="rocket_launch" className="text-sm" filled />
-                A Global Hub for Young Leaders
-              </div>
-              <h1 className="text-6xl md:text-8xl font-extrabold tracking-tighter leading-none text-white">
-                Empowering <br />
-                <span className="vibrant-gradient">The Next Gen</span>
-              </h1>
-              <h2 className="text-2xl md:text-3xl text-on-surface-variant font-medium leading-relaxed">
-                Diverse events. <span className="text-tertiary">Real impact.</span> Global community.
-              </h2>
-              <p className="text-lg text-on-surface-variant/80 max-w-xl mx-auto lg:mx-0">
-                ORVOX is the premier ecosystem for students and young professionals to compete, learn, and lead through world-class events.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start mt-4">
-                <a
-                  href="#events"
-                  onClick={scrollTo("#events")}
-                  className="bg-gradient-to-r from-primary to-tertiary text-on-primary-fixed px-10 py-5 rounded-2xl font-black text-xl hover:scale-110 hover:shadow-[0_0_40px_rgba(125,211,252,0.4)] transition-all active:scale-95 text-center flex items-center justify-center gap-3 shimmer"
-                >
-                  Explore Events
-                  <Icon name="explore" className="font-bold" />
-                </a>
-                <a
-                  href="#about"
-                  onClick={scrollTo("#about")}
-                  className="glass-panel text-white px-10 py-5 rounded-2xl font-bold text-xl hover:bg-white/10 hover:scale-105 transition-all active:scale-95 text-center border border-white/10"
-                >
-                  Our Mission
-                </a>
-              </div>
-            </div>
-
-            <div className="relative w-full max-w-md mx-auto lg:ml-auto reveal" style={{ transitionDelay: "0.2s", perspective: "1000px" }}>
-              <div className="glass-elevated rounded-3xl p-10 float-anim transition-all duration-700 ease-out">
-                <h3 className="text-3xl font-black text-white mb-8 border-b border-white/10 pb-6 flex items-center justify-between">
-                  The Hub
-                  <Icon name="hub" className="text-primary" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {values.map((v, i) => {
+            const Icon = v.icon;
+            return (
+              <div
+                key={v.title}
+                className="reveal group relative bg-background rounded-2xl border border-line p-8 md:p-10 hover:border-ink-subtle transition-colors flex flex-col"
+                style={{ transitionDelay: `${i * 0.08}s` }}
+              >
+                <div className="flex items-center justify-between mb-12">
+                  <span className="text-xs font-medium tabular-nums text-ink-subtle">
+                    0{i + 1}
+                  </span>
+                  <div className="w-12 h-12 rounded-full bg-surface-muted border border-line flex items-center justify-center group-hover:bg-ink group-hover:text-background transition-colors">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                </div>
+                <h3 className="text-2xl md:text-3xl font-medium tracking-[-0.02em] mb-3">
+                  {v.title}
                 </h3>
-                <div className="space-y-8">
-                  {[
-                    { icon: "calendar_month", iconWrap: "bg-primary/20 text-primary border-primary/30 glow-blue", title: "Monthly Events", desc: "From debates to tech hackathons." },
-                    { icon: "public", iconWrap: "bg-tertiary/20 text-tertiary border-tertiary/30 glow-purple", title: "Global Reach", desc: "Connecting minds across 20+ countries." },
-                    { icon: "school", iconWrap: "bg-error/20 text-error border-error/30", title: "Skill Building", desc: "Mentorship from industry experts." },
-                  ].map((item) => (
-                    <div key={item.title} className="flex items-start gap-5 hover:translate-x-2 transition-transform duration-300">
-                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 border ${item.iconWrap}`}>
-                        <Icon name={item.icon} className="text-3xl" filled />
-                      </div>
-                      <div>
-                        <h4 className="text-xl font-bold text-white">{item.title}</h4>
-                        <p className="text-sm text-on-surface-variant mt-1 leading-relaxed">{item.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <p className="text-ink-muted leading-relaxed">{v.desc}</p>
               </div>
-            </div>
-          </div>
-        </section>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-        {/* Events */}
-        <section id="events" className="py-32 px-6 relative">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-20 reveal">
-              <h2 className="text-5xl md:text-7xl font-black text-white mb-6">
-                Upcoming <span className="vibrant-gradient">Experiences</span>
-              </h2>
-              <p className="text-on-surface-variant max-w-2xl mx-auto text-xl font-medium">
-                Choose your arena and prove your potential.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {events.map((ev, i) => (
-                <div
-                  key={ev.title}
-                  className={`glass-panel rounded-[2.5rem] p-8 flex flex-col ${ev.hoverGlow} transition-all duration-500 hover-tilt reveal`}
-                  style={{ transitionDelay: `${i * 0.1}s` }}
-                >
-                  <div className={`w-full h-48 rounded-3xl mb-8 flex items-center justify-center border ${ev.iconBg}`}>
-                    <Icon name={ev.icon} className={`text-7xl ${ev.iconColor}`} filled />
-                  </div>
-                  <div className="px-2">
-                    <span className={`${ev.tagColor} text-xs font-black uppercase tracking-[0.2em] mb-2 block`}>{ev.tag}</span>
-                    <h3 className="text-3xl font-black text-white mb-4">{ev.title}</h3>
-                    <p className="text-on-surface-variant mb-8 line-clamp-3">{ev.desc}</p>
-                    <div className="mt-auto flex items-center justify-between">
-                      <span className="text-white/60 font-bold flex items-center gap-2">
-                        <Icon name="schedule" className="text-sm" /> {ev.date}
-                      </span>
-                      <button className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-xl font-bold transition-all flex items-center gap-2">
-                        Learn More <Icon name="open_in_new" className="text-sm" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+/* ---------------- EVENTS ---------------- */
+function Events() {
+  return (
+    <section id="events" className="px-6 md:px-10 py-24 md:py-36">
+      <div className="max-w-7xl mx-auto">
+        <div className="reveal flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+          <div>
+            <SectionLabel>Events</SectionLabel>
+            <h2 className="mt-6 text-4xl md:text-6xl font-medium tracking-[-0.03em] leading-[1] max-w-2xl">
+              Where students go from{" "}
+              <span className="font-display font-normal">nervous</span> to known.
+            </h2>
           </div>
-        </section>
+          <p className="text-ink-muted max-w-sm md:text-right">
+            One active competition. One on the horizon. Both designed to push you forward.
+          </p>
+        </div>
 
-        {/* About */}
-        <section id="about" className="py-32 px-6 relative">
-          <div className="max-w-7xl mx-auto reveal">
-            <div className="glass-panel rounded-[3rem] p-12 md:p-20 overflow-hidden relative">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div>
-                  <h2 className="text-4xl md:text-6xl font-black text-white mb-8">
-                    Our <span className="text-primary">DNA</span>
-                  </h2>
-                  <p className="text-xl text-on-surface-variant leading-relaxed mb-8 font-medium">
-                    ORVOX was founded on a simple belief: the world's biggest challenges will be solved by the youth, provided they have the right platform to refine their voices.
-                  </p>
-                  <div className="space-y-6">
-                    {[
-                      { icon: "verified", color: "text-primary", label: "Meritocratic Competition Excellence" },
-                      { icon: "diversity_3", color: "text-tertiary", label: "Inclusive Global Networking" },
-                      { icon: "lightbulb", color: "text-error", label: "Practical Leadership Development" },
-                    ].map((v) => (
-                      <div key={v.label} className="flex items-center gap-4">
-                        <div className={`w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center ${v.color} border border-white/10`}>
-                          <Icon name={v.icon} />
-                        </div>
-                        <span className="text-white font-bold text-lg tracking-tight">{v.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="relative">
-                  <div className="glass-elevated rounded-3xl p-8 float-anim">
-                    <div className="text-center">
-                      <div className="text-5xl font-black vibrant-gradient mb-2">15k+</div>
-                      <div className="text-white font-bold uppercase tracking-widest text-sm">Active Members</div>
-                    </div>
-                    <div className="h-px bg-white/10 my-8" />
-                    <div className="text-center">
-                      <div className="text-5xl font-black vibrant-gradient mb-2">50+</div>
-                      <div className="text-white font-bold uppercase tracking-widest text-sm">Annual Events</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Event 1: Active */}
+          <EventCard
+            status="active"
+            statusLabel="Free Registration"
+            title="Debate Competition"
+            audience="For students between grade 5 to 9"
+            icon={<Award className="w-6 h-6" />}
+            details={[
+              "Debate format: 1v1 or team-based rounds",
+              "Certificate for all participants",
+              "Debate topics shared on event day",
+            ]}
+            cta={
+              <a
+                href="#register"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.querySelector("#register")?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="group inline-flex items-center justify-between gap-3 rounded-full bg-ink text-background pl-5 pr-1.5 py-1.5 text-sm font-semibold hover:bg-ink/85 transition-colors w-full sm:w-auto"
+              >
+                Register
+                <span className="w-9 h-9 rounded-full bg-accent text-accent-foreground flex items-center justify-center group-hover:rotate-45 transition-transform">
+                  <ArrowUpRight className="w-4 h-4" />
+                </span>
+              </a>
+            }
+          />
 
-        {/* Registration */}
-        <section id="register" className="py-32 px-6 relative">
-          <div className="max-w-4xl mx-auto reveal">
-            <div
-              className="rounded-[3rem] p-1 shadow-2xl overflow-hidden"
-              style={{ background: "linear-gradient(135deg, rgba(125,211,252,0.3), rgba(200,160,240,0.3))" }}
+          {/* Event 2: Coming Soon */}
+          <EventCard
+            status="soon"
+            statusLabel="Coming Soon"
+            badge="Most Popular"
+            title="Networking Event"
+            audience="For building confidence and personal brand"
+            icon={<Users className="w-6 h-6" />}
+            details={[
+              "Meet like-minded students",
+              "Practice personal branding",
+              "Connect with future speakers and leaders",
+              "Build confidence in conversations",
+            ]}
+            cta={
+              <button
+                disabled
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-surface-muted px-5 py-3 text-sm font-semibold text-ink-muted cursor-not-allowed w-full sm:w-auto"
+              >
+                <Calendar className="w-4 h-4" />
+                Coming Soon
+              </button>
+            }
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function EventCard({
+  status,
+  statusLabel,
+  badge,
+  title,
+  audience,
+  details,
+  cta,
+  icon,
+}: {
+  status: "active" | "soon";
+  statusLabel: string;
+  badge?: string;
+  title: string;
+  audience: string;
+  details: string[];
+  cta: ReactNode;
+  icon: ReactNode;
+}) {
+  return (
+    <article
+      className={`reveal relative rounded-3xl border p-8 md:p-10 flex flex-col gap-8 ${
+        status === "active"
+          ? "bg-ink text-background border-ink"
+          : "bg-surface text-ink border-line"
+      }`}
+    >
+      {badge && (
+        <span className="absolute -top-3 right-8 inline-flex items-center gap-1.5 rounded-full bg-accent text-accent-foreground px-3 py-1 text-xs font-bold uppercase tracking-wider">
+          <Sparkles className="w-3 h-3" />
+          {badge}
+        </span>
+      )}
+
+      <header className="flex items-start justify-between gap-4">
+        <div
+          className={`w-14 h-14 rounded-2xl flex items-center justify-center ${
+            status === "active" ? "bg-background/10 text-background" : "bg-surface-muted text-ink"
+          }`}
+        >
+          {icon}
+        </div>
+        <span
+          className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold ${
+            status === "active"
+              ? "bg-accent text-accent-foreground"
+              : "bg-surface-muted text-ink-muted border border-line"
+          }`}
+        >
+          <span
+            className={`w-1.5 h-1.5 rounded-full ${
+              status === "active" ? "bg-ink animate-pulse" : "bg-ink-subtle"
+            }`}
+          />
+          {statusLabel}
+        </span>
+      </header>
+
+      <div>
+        <h3 className="text-3xl md:text-4xl font-medium tracking-[-0.02em] leading-[1.05]">
+          {title}
+        </h3>
+        <p
+          className={`mt-3 text-sm md:text-base ${
+            status === "active" ? "text-background/60" : "text-ink-muted"
+          }`}
+        >
+          {audience}
+        </p>
+      </div>
+
+      <ul className="space-y-3">
+        {details.map((d) => (
+          <li key={d} className="flex items-start gap-3 text-sm md:text-base">
+            <span
+              className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${
+                status === "active"
+                  ? "bg-background/10 text-background"
+                  : "bg-surface-muted text-ink"
+              }`}
             >
-              <div className="bg-surface-container-high rounded-[2.8rem] p-10 md:p-16">
-                <div className="text-center mb-16">
-                  <h2 className="text-4xl md:text-6xl font-black text-white mb-6">
-                    Join the <span className="text-primary">Ecosystem</span>
-                  </h2>
-                  <p className="text-on-surface-variant text-xl max-w-xl mx-auto">
-                    Register for a specific event or join our general mailing list to stay updated on new opportunities.
-                  </p>
-                </div>
-                <form ref={formRef} onSubmit={handleSubmit} className="space-y-10">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                    <Field label="Full Name">
-                      <input required type="text" placeholder="e.g., Alex Johnson" className={inputCls} />
-                    </Field>
-                    <Field label="Email Address">
-                      <input required type="email" placeholder="alex@example.com" className={inputCls} />
-                    </Field>
-                    <Field label="Phone Number">
-                      <input
-                        ref={phoneRef}
-                        required
-                        type="tel"
-                        placeholder="+1 (555) 000-0000"
-                        onInput={() => { setFeedback("Join 15,000+ others in the ORVOX journey."); setFeedbackError(false); }}
-                        className={`${inputCls} ${feedbackError ? "border-error ring-2 ring-error/20" : ""}`}
-                      />
-                    </Field>
-                    <Field label="I am a...">
-                      <select required defaultValue="" className={`${inputCls} appearance-none`}>
-                        <option className="bg-surface" disabled value="">Select Status</option>
-                        <option className="bg-surface" value="student">High School Student</option>
-                        <option className="bg-surface" value="college">University Student</option>
-                        <option className="bg-surface" value="professional">Early Professional</option>
-                      </select>
-                    </Field>
-                  </div>
-                  <Field label="Interested Event">
-                    <select required defaultValue="general" className={`${inputCls} text-lg font-bold appearance-none`}>
-                      <option className="bg-surface" value="general">General Interest (Stay Updated)</option>
-                      <option className="bg-surface" value="debate">National Youth Debate 2024</option>
-                      <option className="bg-surface" value="summit">Global Leadership Summit</option>
-                      <option className="bg-surface" value="workshop">Public Speaking Workshop</option>
-                    </select>
-                  </Field>
-                  <div className="pt-6">
-                    <button
-                      type="submit"
-                      className={`w-full bg-gradient-to-r from-primary to-tertiary text-on-primary-fixed py-6 rounded-2xl font-black text-2xl hover:scale-[1.02] hover:shadow-[0_0_50px_rgba(125,211,252,0.4)] transition-all active:scale-[0.98] flex items-center justify-center gap-3 shimmer ${
-                        submitted ? "brightness-125 scale-105" : ""
-                      }`}
-                    >
-                      {submitted ? (
-                        <><Icon name="check_circle" /> Application Received!</>
-                      ) : (
-                        <>Complete Registration <Icon name="arrow_forward" className="font-black" /></>
-                      )}
-                    </button>
-                  </div>
-                </form>
-                <p className={`text-center mt-8 text-sm font-medium ${feedbackError ? "text-error" : "text-on-surface-variant/60"}`}>
-                  {feedback}
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
+              <Check className="w-3 h-3" />
+            </span>
+            <span className={status === "active" ? "text-background/85" : "text-ink"}>{d}</span>
+          </li>
+        ))}
+      </ul>
 
-      {/* Footer */}
-      <footer id="contact" className="w-full bg-black/40 border-t border-white/5 pb-24 md:pb-12 z-10 relative">
-        <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-16">
-          <div className="flex flex-col gap-6 reveal">
-            <div className="text-3xl font-black text-white tracking-tighter">ORVOX</div>
-            <p className="text-on-surface-variant text-lg font-medium leading-relaxed">
-              The global multi-event platform empowering the next generation of thinkers, speakers, and leaders.
+      <div className="mt-auto pt-2">{cta}</div>
+    </article>
+  );
+}
+
+/* ---------------- REGISTER ---------------- */
+function Register() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const phone = String(fd.get("phone") ?? "").replace(/\D/g, "");
+    if (phone.length < 10) {
+      setError("Please enter a valid 10-digit phone number.");
+      return;
+    }
+    setError(null);
+    setSent(true);
+    setTimeout(() => {
+      setSent(false);
+      formRef.current?.reset();
+    }, 4000);
+  };
+
+  return (
+    <section id="register" className="px-6 md:px-10 py-24 md:py-36 bg-surface border-t border-line">
+      <div className="max-w-5xl mx-auto">
+        <div className="reveal text-center mb-14 md:mb-20">
+          <SectionLabel className="justify-center">Register</SectionLabel>
+          <h2 className="mt-6 text-4xl md:text-6xl font-medium tracking-[-0.03em] leading-[1]">
+            Step up. <span className="font-display font-normal">Take the mic.</span>
+          </h2>
+          <p className="mt-5 text-ink-muted max-w-xl mx-auto">
+            Sign up for the Debate Competition or join the forum to hear about everything we have
+            planned next.
+          </p>
+        </div>
+
+        <form
+          ref={formRef}
+          onSubmit={onSubmit}
+          className="reveal bg-background rounded-3xl border border-line p-6 md:p-10 shadow-card"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <Field label="Full name">
+              <input name="name" required type="text" placeholder="e.g., Aarav Mehta" className={inputCls} />
+            </Field>
+            <Field label="Email address">
+              <input name="email" required type="email" placeholder="you@school.com" className={inputCls} />
+            </Field>
+            <Field label="Phone number">
+              <input
+                name="phone"
+                required
+                type="tel"
+                placeholder="+91 98765 43210"
+                onInput={() => setError(null)}
+                className={`${inputCls} ${error ? "ring-2 ring-red-500/20 border-red-500" : ""}`}
+              />
+            </Field>
+            <Field label="Grade / Status">
+              <select name="grade" required defaultValue="" className={`${inputCls} appearance-none pr-10`}>
+                <option value="" disabled>Select grade</option>
+                <option value="5-6">Grade 5 – 6</option>
+                <option value="7-8">Grade 7 – 8</option>
+                <option value="9">Grade 9</option>
+                <option value="other">Other / Just interested</option>
+              </select>
+            </Field>
+          </div>
+
+          <div className="mt-5">
+            <Field label="Interested in">
+              <select name="event" required defaultValue="debate" className={`${inputCls} appearance-none pr-10`}>
+                <option value="debate">Debate Competition (Open)</option>
+                <option value="networking">Networking Event (Notify me)</option>
+                <option value="general">General Updates</option>
+              </select>
+            </Field>
+          </div>
+
+          <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <p className={`text-sm ${error ? "text-red-600" : "text-ink-muted"}`}>
+              {error ?? "We respond within 48 hours. No spam, ever."}
             </p>
+            <button
+              type="submit"
+              className="group inline-flex items-center justify-between gap-3 rounded-full bg-ink text-background pl-6 pr-2 py-2 text-base font-semibold hover:bg-ink/85 transition-colors"
+            >
+              {sent ? "Application received" : "Complete registration"}
+              <span className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center group-hover:rotate-45 transition-transform">
+                {sent ? <Check className="w-4 h-4" /> : <Send className="w-4 h-4" />}
+              </span>
+            </button>
           </div>
-          <div className="flex flex-col gap-6 reveal" style={{ transitionDelay: "0.1s" }}>
-            <div className="font-black text-white text-lg uppercase tracking-widest">Explore</div>
-            <div className="flex flex-col gap-4">
-              <a className="text-on-surface-variant hover:text-primary transition-colors font-medium w-fit" href="#home" onClick={scrollTo("#home")}>Home</a>
-              <a className="text-on-surface-variant hover:text-primary transition-colors font-medium w-fit" href="#events" onClick={scrollTo("#events")}>Events</a>
-              <a className="text-on-surface-variant hover:text-primary transition-colors font-medium w-fit" href="#about" onClick={scrollTo("#about")}>About Us</a>
-              <a className="text-on-surface-variant hover:text-primary transition-colors font-medium w-fit" href="#">Privacy Policy</a>
+        </form>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- FOOTER ---------------- */
+function Footer() {
+  return (
+    <footer id="contact" className="bg-ink text-background">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 py-20 md:py-28">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+          <div className="md:col-span-7">
+            <SectionLabel className="text-background/60">Contact</SectionLabel>
+            <h2 className="mt-6 font-medium tracking-[-0.03em] leading-[0.95] text-[clamp(2.5rem,7vw,5.5rem)]">
+              Let's talk.
+              <br />
+              <span className="font-display font-normal text-accent">Let's build the forum.</span>
+            </h2>
+            <p className="mt-8 text-background/70 max-w-md leading-relaxed">
+              Have a question about an event, want to volunteer, or partner with ORVOX? Reach out —
+              we read everything.
+            </p>
+
+            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+              <a
+                href="mailto:hello@orvox.org"
+                className="inline-flex items-center gap-3 rounded-full bg-background text-ink px-5 py-3 text-sm font-semibold hover:bg-accent transition-colors"
+              >
+                <Mail className="w-4 h-4" />
+                hello@orvox.org
+              </a>
+              <a
+                href="#"
+                className="inline-flex items-center gap-3 rounded-full border border-background/20 px-5 py-3 text-sm font-semibold hover:bg-background/10 transition-colors"
+              >
+                <Instagram className="w-4 h-4" />
+                @orvox.forum
+              </a>
             </div>
           </div>
-          <div className="flex flex-col gap-6 md:items-end reveal" style={{ transitionDelay: "0.2s" }}>
-            <div className="font-black text-white text-lg uppercase tracking-widest">Connect</div>
-            <div className="flex gap-4">
-              <a className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center hover:bg-primary hover:text-on-primary-fixed hover:scale-110 transition-all border border-white/10" href="#" aria-label="Email">
-                <Icon name="mail" />
-              </a>
-              <a className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center hover:bg-tertiary hover:text-on-primary-fixed hover:scale-110 transition-all border border-white/10" href="#" aria-label="Instagram">
-                <Icon name="camera" />
-              </a>
+
+          <div className="md:col-span-5 md:col-start-9 grid grid-cols-2 gap-8 md:gap-12 text-sm">
+            <div>
+              <div className="text-background/50 uppercase tracking-widest text-xs mb-4">
+                Explore
+              </div>
+              <ul className="space-y-3">
+                {[
+                  ["About", "#about"],
+                  ["Values", "#values"],
+                  ["Events", "#events"],
+                  ["Register", "#register"],
+                ].map(([l, h]) => (
+                  <li key={h}>
+                    <a
+                      href={h}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        document.querySelector(h)?.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      className="link-underline hover:text-accent transition-colors"
+                    >
+                      {l}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="mt-8 text-on-surface-variant/60 font-bold tracking-widest text-xs uppercase text-right">
-              © 2024 ORVOX Platform. <br />All rights reserved.
+            <div>
+              <div className="text-background/50 uppercase tracking-widest text-xs mb-4">
+                Forum
+              </div>
+              <ul className="space-y-3 text-background/80">
+                <li>Debate Competition</li>
+                <li>Networking Event</li>
+                <li>Public Speaking</li>
+                <li>Youth Leadership</li>
+              </ul>
             </div>
           </div>
         </div>
-      </footer>
 
-      {/* Mobile CTA */}
-      <div className="fixed bottom-0 w-full md:hidden z-50 p-6 bg-gradient-to-t from-black to-transparent">
-        <a
-          href="#register"
-          onClick={scrollTo("#register")}
-          className="flex items-center justify-center bg-gradient-to-r from-primary to-tertiary text-on-primary-fixed rounded-2xl w-full py-5 shadow-2xl font-black uppercase tracking-widest text-sm active:scale-95 transition-transform gap-3"
-        >
-          <Icon name="hub" />
-          Join ORVOX
-        </a>
+        <div className="mt-20 pt-8 border-t border-background/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-background/50">
+          <div className="flex items-center gap-3">
+            <span className="w-6 h-6 rounded-full bg-background/10 flex items-center justify-center">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+            </span>
+            <span>© {new Date().getFullYear()} ORVOX Youth Forum. All rights reserved.</span>
+          </div>
+          <div className="uppercase tracking-widest">By the students. For the students.</div>
+        </div>
+
+        {/* Wordmark */}
+        <div className="mt-16 -mb-6 md:-mb-10 overflow-hidden">
+          <div className="font-display italic text-background/10 tracking-[-0.04em] leading-none text-[clamp(5rem,18vw,16rem)] text-center select-none">
+            ORVOX
+          </div>
+        </div>
       </div>
+    </footer>
+  );
+}
+
+/* ---------------- SHARED ---------------- */
+function SectionLabel({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return (
+    <div
+      className={`inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-ink-muted ${className}`}
+    >
+      <span className="inline-block w-6 h-px bg-ink-subtle" />
+      {children}
     </div>
   );
 }
 
 const inputCls =
-  "w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-primary focus:ring-2 focus:ring-primary/50 focus:bg-white/10 transition-all outline-none placeholder-white/20";
+  "w-full bg-surface border border-line rounded-2xl px-5 py-4 text-ink placeholder:text-ink-subtle focus:border-ink focus:ring-2 focus:ring-ink/10 transition-all outline-none";
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="space-y-4">
-      <label className="text-xs font-black text-white uppercase tracking-widest ml-1 block">{label}</label>
+    <label className="block space-y-2">
+      <span className="text-xs font-semibold uppercase tracking-widest text-ink-muted ml-1">
+        {label}
+      </span>
       {children}
-    </div>
+    </label>
   );
 }
