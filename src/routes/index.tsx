@@ -402,7 +402,7 @@ function Events() {
             <SectionLabel>Events</SectionLabel>
             <h2 className="mt-6 text-4xl md:text-6xl font-medium tracking-[-0.03em] leading-[1] max-w-2xl">
               Where students go from{" "}
-              <span className="font-display font-normal">nervous</span> to known.
+              <span className="font-display font-normal text-gradient">nervous</span> to known.
             </h2>
           </div>
           <p className="text-ink-muted max-w-sm md:text-right">
