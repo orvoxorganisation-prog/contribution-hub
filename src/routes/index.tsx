@@ -99,9 +99,10 @@ function Index() {
 
           <div className="flex items-center gap-2">
             <a
-              href="#register"
-              onClick={scrollTo("#register")}
-              className="hidden sm:inline-flex items-center gap-2 rounded-full bg-ink text-background px-5 py-2.5 text-sm font-semibold hover:bg-ink/85 transition-colors"
+              href="https://docs.google.com/forms/d/1dE91Os-HR2N3ngXsPioFdMUok0xk4npYRIHn73lhL1E/viewform"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-cta text-accent-foreground px-5 py-2.5 text-sm font-semibold hover:opacity-95 transition-opacity"
             >
               Register
               <ArrowUpRight className="w-4 h-4" />
