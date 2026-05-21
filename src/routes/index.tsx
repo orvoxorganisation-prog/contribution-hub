@@ -13,9 +13,11 @@ import {
   Menu as MenuIcon,
   X,
   Mail,
-  Instagram,
+  Instagram as InstagramIcon,
   Send,
 } from "lucide-react";
+
+const Instagram = InstagramIcon ?? (() => null);
 
 export const Route = createFileRoute("/")({
   head: () => ({
