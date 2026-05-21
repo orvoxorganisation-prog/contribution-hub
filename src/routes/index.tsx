@@ -183,15 +183,13 @@ function Hero() {
 
           <div className="reveal md:col-span-6 md:col-start-7 flex flex-col sm:flex-row gap-3 md:justify-end">
             <a
-              href="#register"
-              onClick={(e) => {
-                e.preventDefault();
-                document.querySelector("#register")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="group inline-flex items-center justify-between gap-3 rounded-full bg-ink text-background pl-6 pr-2 py-2 text-base font-semibold hover:bg-ink/85 transition-colors"
+              href="https://docs.google.com/forms/d/1dE91Os-HR2N3ngXsPioFdMUok0xk4npYRIHn73lhL1E/viewform"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center justify-between gap-3 rounded-full bg-gradient-cta text-accent-foreground pl-6 pr-2 py-2 text-base font-semibold hover:opacity-95 transition-opacity shadow-glow"
             >
               Register
-              <span className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center group-hover:rotate-45 transition-transform">
+              <span className="w-10 h-10 rounded-full bg-ink text-background flex items-center justify-center group-hover:rotate-45 transition-transform">
                 <ArrowUpRight className="w-4 h-4" />
               </span>
             </a>
@@ -201,7 +199,7 @@ function Hero() {
                 e.preventDefault();
                 document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-surface px-6 py-3 text-base font-semibold hover:bg-surface-muted transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-surface/60 backdrop-blur px-6 py-3 text-base font-semibold hover:bg-surface transition-colors"
             >
               Contact Us
             </a>
