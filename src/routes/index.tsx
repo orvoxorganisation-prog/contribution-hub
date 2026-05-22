@@ -99,7 +99,7 @@ function Index() {
 
           <div className="flex items-center gap-2">
             <a
-              href="https://docs.google.com/forms/d/1dE91Os-HR2N3ngXsPioFdMUok0xk4npYRIHn73lhL1E/viewform"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSeQ9GRrQmJaR9t4UAGbS6PjwFYDp97jlCQOYkJmSbNAukUHtg/viewform"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-cta text-accent-foreground px-5 py-2.5 text-sm font-semibold hover:opacity-95 transition-opacity"
@@ -184,7 +184,7 @@ function Hero() {
 
           <div className="reveal md:col-span-6 md:col-start-7 flex flex-col sm:flex-row gap-3 md:justify-end">
             <a
-              href="https://docs.google.com/forms/d/1dE91Os-HR2N3ngXsPioFdMUok0xk4npYRIHn73lhL1E/viewform"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSeQ9GRrQmJaR9t4UAGbS6PjwFYDp97jlCQOYkJmSbNAukUHtg/viewform"
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center justify-between gap-3 rounded-full bg-gradient-cta text-accent-foreground pl-6 pr-2 py-2 text-base font-semibold hover:opacity-95 transition-opacity shadow-glow"
@@ -425,7 +425,7 @@ function Events() {
             ]}
             cta={
               <a
-                href="https://docs.google.com/forms/d/1dE91Os-HR2N3ngXsPioFdMUok0xk4npYRIHn73lhL1E/viewform"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeQ9GRrQmJaR9t4UAGbS6PjwFYDp97jlCQOYkJmSbNAukUHtg/viewform"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center justify-between gap-3 rounded-full bg-ink text-foreground pl-5 pr-1.5 py-1.5 text-sm font-semibold hover:opacity-95 transition-opacity w-full sm:w-auto"
@@ -581,7 +581,7 @@ function EventCard({
 /* ---------------- REGISTER ---------------- */
 function Register() {
   const formUrl =
-    "https://docs.google.com/forms/d/1dE91Os-HR2N3ngXsPioFdMUok0xk4npYRIHn73lhL1E/viewform";
+    "https://docs.google.com/forms/d/e/1FAIpQLSeQ9GRrQmJaR9t4UAGbS6PjwFYDp97jlCQOYkJmSbNAukUHtg/viewform";
   return (
     <section
       id="register"
