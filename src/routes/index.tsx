@@ -441,7 +441,7 @@ function Events() {
             status="active"
             statusLabel="Free Registration"
             title="Debate Competition"
-            audience="For students between grade 5 to 9"
+            audience="For students between grade 8 to 12"
             icon={<Award className="w-6 h-6" />}
             details={[
               "Debate format: 1v1 or team-based rounds",
@@ -635,7 +635,7 @@ function Register() {
               Join the ORVOX <span className="font-display font-normal">Debate Competition</span>
             </h3>
             <p className="text-ink-muted max-w-md">
-              For students between grade 5 to 9. Fill out the registration form to lock your spot.
+              For students between grade 8 to 12. Fill out the registration form to lock your spot.
             </p>
             <a
               href={formUrl}
