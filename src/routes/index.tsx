@@ -74,9 +74,7 @@ function Index() {
       >
         <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 md:h-20 flex items-center justify-between">
           <a href="#home" onClick={scrollTo("#home")} className="flex items-center gap-2">
-            <span className="w-7 h-7 rounded-full bg-ink flex items-center justify-center">
-              <span className="w-2 h-2 rounded-full bg-accent" />
-            </span>
+            <img src={orvoxLogo} alt="ORVOX" className="w-8 h-8 rounded-md object-cover" />
             <span className="font-semibold tracking-tight text-lg">ORVOX</span>
           </a>
 
