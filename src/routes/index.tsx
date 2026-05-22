@@ -159,10 +159,27 @@ function Index() {
 /* ---------------- HERO ---------------- */
 function Hero() {
   return (
-    <section id="home" className="relative px-6 md:px-10 pt-16 md:pt-24 pb-24 md:pb-32">
-      <div className="max-w-7xl mx-auto">
-        <div className="reveal flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-ink-muted mb-10">
-          <span className="inline-block w-8 h-px bg-ink-subtle" />
+    <section id="home" className="relative px-6 md:px-10 pt-16 md:pt-24 pb-24 md:pb-32 overflow-hidden">
+      {/* ambient color glows */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 -left-32 w-[40rem] h-[40rem] rounded-full blur-3xl opacity-50"
+        style={{ background: "radial-gradient(circle, var(--grad-1), transparent 60%)" }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-20 right-[-10rem] w-[36rem] h-[36rem] rounded-full blur-3xl opacity-40"
+        style={{ background: "radial-gradient(circle, var(--grad-2), transparent 60%)" }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-[-10rem] left-1/3 w-[32rem] h-[32rem] rounded-full blur-3xl opacity-30"
+        style={{ background: "radial-gradient(circle, var(--grad-3), transparent 60%)" }}
+      />
+
+      <div className="relative max-w-7xl mx-auto">
+        <div className="reveal inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-ink-muted mb-10 rounded-full border border-line-strong bg-surface/60 backdrop-blur px-4 py-2">
+          <span className="inline-block w-2 h-2 rounded-full bg-gradient-cta" />
           Organisation for Vocal Oratory and eXpression
         </div>
 
@@ -206,16 +223,21 @@ function Hero() {
           </div>
         </div>
 
-        <div className="reveal mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-px bg-line rounded-2xl overflow-hidden border border-line">
+        <div className="reveal mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-px bg-gradient-cta rounded-2xl overflow-hidden border border-line shadow-soft">
           {[
-            { k: "Student-led", v: "Built by students, for students" },
-            { k: "Debate", v: "Grade 5 – 9 competitions" },
-            { k: "Networking", v: "Confidence & personal brand" },
-            { k: "Forum", v: "Speak. Think. Lead." },
+            { k: "Student-led", v: "Built by students, for students", tint: "var(--grad-1)" },
+            { k: "Debate", v: "Grade 5 – 9 competitions", tint: "var(--grad-2)" },
+            { k: "Networking", v: "Confidence & personal brand", tint: "var(--grad-3)" },
+            { k: "Forum", v: "Speak. Think. Lead.", tint: "var(--grad-1)" },
           ].map((s) => (
-            <div key={s.k} className="bg-background p-5 md:p-6">
-              <div className="text-xs uppercase tracking-widest text-ink-subtle">{s.k}</div>
-              <div className="mt-2 text-sm md:text-base font-medium text-ink leading-snug">
+            <div key={s.k} className="relative bg-background/90 backdrop-blur p-5 md:p-6 overflow-hidden">
+              <div
+                aria-hidden
+                className="absolute -top-10 -right-10 w-32 h-32 rounded-full blur-2xl opacity-40"
+                style={{ background: `radial-gradient(circle, ${s.tint}, transparent 70%)` }}
+              />
+              <div className="relative text-xs uppercase tracking-widest text-gradient font-semibold">{s.k}</div>
+              <div className="relative mt-2 text-sm md:text-base font-medium text-ink leading-snug">
                 {s.v}
               </div>
             </div>
@@ -238,12 +260,16 @@ function Marquee() {
   ];
   const row = [...items, ...items];
   return (
-    <section aria-hidden className="border-y border-line bg-surface-muted overflow-hidden">
-      <div className="marquee py-6">
+    <section aria-hidden className="relative border-y border-line bg-surface-muted overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-30 bg-gradient-cta"
+      />
+      <div className="relative marquee py-6">
         {row.map((t, i) => (
-          <div key={i} className="flex items-center gap-16 text-xl md:text-2xl font-medium text-ink">
-            <span>{t}</span>
-            <Sparkles className="w-4 h-4 text-ink-subtle" />
+          <div key={i} className="flex items-center gap-16 text-xl md:text-2xl font-medium">
+            <span className={i % 2 === 0 ? "text-gradient font-display" : "text-ink"}>{t}</span>
+            <Sparkles className="w-4 h-4" style={{ color: "var(--grad-2)" }} />
           </div>
         ))}
       </div>
