@@ -260,12 +260,16 @@ function Marquee() {
   ];
   const row = [...items, ...items];
   return (
-    <section aria-hidden className="border-y border-line bg-surface-muted overflow-hidden">
-      <div className="marquee py-6">
+    <section aria-hidden className="relative border-y border-line bg-surface-muted overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-30 bg-gradient-cta"
+      />
+      <div className="relative marquee py-6">
         {row.map((t, i) => (
-          <div key={i} className="flex items-center gap-16 text-xl md:text-2xl font-medium text-ink">
-            <span>{t}</span>
-            <Sparkles className="w-4 h-4 text-ink-subtle" />
+          <div key={i} className="flex items-center gap-16 text-xl md:text-2xl font-medium">
+            <span className={i % 2 === 0 ? "text-gradient font-display" : "text-ink"}>{t}</span>
+            <Sparkles className="w-4 h-4" style={{ color: "var(--grad-2)" }} />
           </div>
         ))}
       </div>
