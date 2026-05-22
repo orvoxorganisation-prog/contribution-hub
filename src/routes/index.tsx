@@ -226,7 +226,7 @@ function Hero() {
         <div className="reveal mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-px bg-gradient-cta rounded-2xl overflow-hidden border border-line shadow-soft">
           {[
             { k: "Student-led", v: "Built by students, for students", tint: "var(--grad-1)" },
-            { k: "Debate", v: "Grade 5 – 9 competitions", tint: "var(--grad-2)" },
+            { k: "Debate", v: "Grade 8 – 12 competitions", tint: "var(--grad-2)" },
             { k: "Networking", v: "Confidence & personal brand", tint: "var(--grad-3)" },
             { k: "Forum", v: "Speak. Think. Lead.", tint: "var(--grad-1)" },
           ].map((s) => (
@@ -313,7 +313,7 @@ function About() {
 
           <div className="pt-6 grid grid-cols-2 gap-px bg-line rounded-2xl overflow-hidden border border-line">
             <Stat number="100%" label="Student-led" />
-            <Stat number="Gr 5–9" label="Open audience" />
+            <Stat number="Gr 8–12" label="Open audience" />
           </div>
         </div>
       </div>
@@ -536,7 +536,7 @@ function EventCard({
         />
       )}
       {badge && (
-        <span className="absolute -top-3 right-8 inline-flex items-center gap-1.5 rounded-full bg-ink text-background px-3 py-1 text-xs font-bold uppercase tracking-wider shadow-card">
+        <span className="absolute top-4 right-8 inline-flex items-center gap-1.5 rounded-full bg-ink text-background px-3 py-1 text-xs font-bold uppercase tracking-wider shadow-card">
           <Sparkles className="w-3 h-3 text-accent" />
           {badge}
         </span>
