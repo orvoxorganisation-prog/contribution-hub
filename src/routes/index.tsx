@@ -223,16 +223,21 @@ function Hero() {
           </div>
         </div>
 
-        <div className="reveal mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-px bg-line rounded-2xl overflow-hidden border border-line">
+        <div className="reveal mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-px bg-gradient-cta rounded-2xl overflow-hidden border border-line shadow-soft">
           {[
-            { k: "Student-led", v: "Built by students, for students" },
-            { k: "Debate", v: "Grade 5 – 9 competitions" },
-            { k: "Networking", v: "Confidence & personal brand" },
-            { k: "Forum", v: "Speak. Think. Lead." },
+            { k: "Student-led", v: "Built by students, for students", tint: "var(--grad-1)" },
+            { k: "Debate", v: "Grade 5 – 9 competitions", tint: "var(--grad-2)" },
+            { k: "Networking", v: "Confidence & personal brand", tint: "var(--grad-3)" },
+            { k: "Forum", v: "Speak. Think. Lead.", tint: "var(--grad-1)" },
           ].map((s) => (
-            <div key={s.k} className="bg-background p-5 md:p-6">
-              <div className="text-xs uppercase tracking-widest text-ink-subtle">{s.k}</div>
-              <div className="mt-2 text-sm md:text-base font-medium text-ink leading-snug">
+            <div key={s.k} className="relative bg-background/90 backdrop-blur p-5 md:p-6 overflow-hidden">
+              <div
+                aria-hidden
+                className="absolute -top-10 -right-10 w-32 h-32 rounded-full blur-2xl opacity-40"
+                style={{ background: `radial-gradient(circle, ${s.tint}, transparent 70%)` }}
+              />
+              <div className="relative text-xs uppercase tracking-widest text-gradient font-semibold">{s.k}</div>
+              <div className="relative mt-2 text-sm md:text-base font-medium text-ink leading-snug">
                 {s.v}
               </div>
             </div>
