@@ -159,10 +159,27 @@ function Index() {
 /* ---------------- HERO ---------------- */
 function Hero() {
   return (
-    <section id="home" className="relative px-6 md:px-10 pt-16 md:pt-24 pb-24 md:pb-32">
-      <div className="max-w-7xl mx-auto">
-        <div className="reveal flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-ink-muted mb-10">
-          <span className="inline-block w-8 h-px bg-ink-subtle" />
+    <section id="home" className="relative px-6 md:px-10 pt-16 md:pt-24 pb-24 md:pb-32 overflow-hidden">
+      {/* ambient color glows */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 -left-32 w-[40rem] h-[40rem] rounded-full blur-3xl opacity-50"
+        style={{ background: "radial-gradient(circle, var(--grad-1), transparent 60%)" }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-20 right-[-10rem] w-[36rem] h-[36rem] rounded-full blur-3xl opacity-40"
+        style={{ background: "radial-gradient(circle, var(--grad-2), transparent 60%)" }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-[-10rem] left-1/3 w-[32rem] h-[32rem] rounded-full blur-3xl opacity-30"
+        style={{ background: "radial-gradient(circle, var(--grad-3), transparent 60%)" }}
+      />
+
+      <div className="relative max-w-7xl mx-auto">
+        <div className="reveal inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-ink-muted mb-10 rounded-full border border-line-strong bg-surface/60 backdrop-blur px-4 py-2">
+          <span className="inline-block w-2 h-2 rounded-full bg-gradient-cta" />
           Organisation for Vocal Oratory and eXpression
         </div>
 
